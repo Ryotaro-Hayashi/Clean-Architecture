@@ -10,6 +10,7 @@ import (
 
 // わからん
 type SqlHandler struct {
+  // * の使い方が分からない
   Conn *sql.DB
 }
 
