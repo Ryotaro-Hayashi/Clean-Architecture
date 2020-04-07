@@ -18,7 +18,9 @@ type SqlHandler struct {
 }
 
 // New + 構造体名 という構造体を初期化する関数名の命名慣例
-func NewSqlHandler() *SqlHandler {
+// 戻り値をinterfacesのSqlHandlerにするためにコメントアウト↓
+// func NewSqlHandler() *SqlHandler {
+func NewSqlHandler() database.SqlHandler {
   // データベースへ接続するためのhandlerを取得。ドライバ名（mysql）と、user:password@tcp(host:port)/dbnameを指定。
   // tcp, := は何？
   conn, err := sql.Open("mysql", "root:@tcp(db:3306)/sample")
@@ -37,6 +39,7 @@ func NewSqlHandler() *SqlHandler {
 // interfacesで使うメソッドを定義
 
 // Executeメソッド
+// 戻り値がinterfacesの Result, error になっている
 func (handler *SqlHandler) Execute(statement string, args ...interface{}) (database.Result, error) {
     res := SqlResult{}
     result, err := handler.Conn.Exec(statement, args...)
@@ -48,6 +51,7 @@ func (handler *SqlHandler) Execute(statement string, args ...interface{}) (datab
 }
 
 // Queryメソッド
+// 戻り値がinterfacesの Row, error になっている
 func (handler *SqlHandler) Query(statement string, args ...interface{}) (database.Row, error) {
     rows, err := handler.Conn.Query(statement, args...)
     if err != nil {
