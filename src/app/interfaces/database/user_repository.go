@@ -5,6 +5,7 @@ package database
 // domain層をインポート
 // 内側に依存しているので依存関係は守れている
 import "app/domain"
+// usecaseをインポートする必要があるのでは？？
 
 // infrastructures層で定義したデータベース接続を実行
 // 外側のレイヤーのルールを内側のレイヤーに持ち込んでいる！ように見えるが、
