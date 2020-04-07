@@ -7,7 +7,8 @@ package database
 import "app/domain"
 
 // infrastructures層で定義したデータベース接続を実行
-// 外側のレイヤーのルールを内側のレイヤーに持ち込んでいる！
+// 外側のレイヤーのルールを内側のレイヤーに持ち込んでいる！ように見えるが、
+// 実態としてはuser_repository/goから呼び出している
 type UserRepository struct {
   SqlHandler
 }
