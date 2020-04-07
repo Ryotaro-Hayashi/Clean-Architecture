@@ -4,19 +4,20 @@ package infrastructure
 
 // mysqlをgithubからインポート
 import (
+  // database/sqlパッケージ
   "database/sql"
+  // mysql用のドライバー
   _ "github.com/go-sql-driver/mysql"
 )
 
-// わからん
 type SqlHandler struct {
-  // * の使い方が分からない
+  // database/sqlパッケージによるデータベース接続に必要なtype
   Conn *sql.DB
 }
 
-// わからん
+// New + 構造体名 という構造体を初期化する関数名の命名慣例
 func NewSqlHandler() *SqlHandler {
-  // データベースへ接続。ドライバ名（mysql）と、user:password@tcp(host:port)/dbnameを指定。
+  // データベースへ接続するためのhandlerを取得。ドライバ名（mysql）と、user:password@tcp(host:port)/dbnameを指定。
   // tcp, := は何？
   conn, err := sql.Open("mysql", "root:@tcp(db:3306)/sample")
 
@@ -25,6 +26,7 @@ func NewSqlHandler() *SqlHandler {
       panic(err.Error)
   }
 
+  // newは、指定した型のポインタ型を生成する関数（構造体の初期化）
   sqlHandler := new(SqlHandler)
   sqlHandler.Conn = conn
   return sqlHandler
