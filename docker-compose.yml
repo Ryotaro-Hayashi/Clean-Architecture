@@ -7,7 +7,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - db-data:/var/lib/mysql
-      - ./api/mysql:/docker-entrypoint-initdb.d
+      - ./mysql:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
 
@@ -16,10 +16,10 @@ services:
     tty: true # コンテナの起動永続化
     environment:
       MYAPP_DATABASE_HOST: db
-    #command: "go run server.go"
+    command: "go run server.go"
     volumes:
-      # - ./api:/api # マウントディレクトリ指定
-      - ./:/go/src
+      # # マウントディレクトリ指定（ディレクトリ綺麗なのでDockerfileのディレクトリと一致させた）
+      - ./:/CleanArchitecture
     ports:
       - "8080:8080"
     links:
