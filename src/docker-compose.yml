@@ -1,7 +1,19 @@
 version: '3' # composeファイルのバーション指定
 services:
+  db:
+    image: mysql:5.6
+    environment:
+      MYSQL_DATABASE: sample
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+
   back: # service名
     build: ./app # ビルドに使用するDockerfileがあるディレクトリ指定
     tty: true # コンテナの起動永続化
     volumes:
-      - ./app:/api # マウントディレクトリ指定
+      - ./app:/app # マウントディレクトリ指定
+    ports:
+      - "8080:8080"
+    links:
+      - db
