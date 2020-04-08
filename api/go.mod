@@ -1,3 +1,5 @@
+// go mod init プロジェクト名（ここではapi）でモジュールを初期化
+// go build でパッケージをインストール （Docker環境ではDockerfileに定義）
 module api
 
 go 1.14

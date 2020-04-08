@@ -22,7 +22,7 @@ type SqlHandler struct {
 // func NewSqlHandler() *SqlHandler {
 func NewSqlHandler() database.SqlHandler {
   // データベースへ接続するためのhandlerを取得。ドライバ名（mysql）と、user:password@tcp(host:port)/dbnameを指定。
-  // ローカル環境で、tcp を入れると nil pointer エラーが出る
+  // ローカル環境で、tcp を入れると nil pointer エラーが出る(mysql.server start も忘れずに)
   // Docker環境では、tcp を入れないと nil pointer エラーが出る
   conn, err := sql.Open("mysql", "root@tcp(db:3306)/CleanArchitecture")
 

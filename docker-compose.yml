@@ -3,11 +3,15 @@ services:
   db:
     image: mysql:5.6
     environment:
+      # データベース名
       MYSQL_DATABASE: CleanArchitecture
+      # rootユーザーのログイン時に空パスワードを許可
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
+      # データベースの永続化
       - db-data:/var/lib/mysql
-      - ./api/mysql:/docker-entrypoint-initdb.d
+      # テーブルや初期データの作成・追加
+      - ./mysql:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
 
@@ -16,14 +20,16 @@ services:
     tty: true # コンテナの起動永続化
     environment:
       MYAPP_DATABASE_HOST: db
-    #command: "go run server.go"
+    # サーバー起動の自動化
+    command: "go run server.go"
     volumes:
-      # - ./api:/api # マウントディレクトリ指定
-      - ./:/go/src
+      # # マウントディレクトリ指定（ディレクトリ綺麗なのでDockerfileのディレクトリと一致させた）
+      - ./:/CleanArchitecture
     ports:
       - "8080:8080"
     links:
       - db
 
+# db-dataというデータボリュームを作成
 volumes:
   db-data:
