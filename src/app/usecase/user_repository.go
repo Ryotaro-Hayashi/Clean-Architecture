@@ -2,7 +2,7 @@
 
 package usecase
 
-import "app/domain"
+import "../domain"
 
 // ロジックとしてUserRepository型とメソッドを定義
 type UserRepository interface {

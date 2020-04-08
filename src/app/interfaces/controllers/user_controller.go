@@ -1,9 +1,9 @@
 package controllers
 
 import (
-  "app/domain"
-  "app/usecase"
-  "app/interfaces/database"
+  "../../domain"
+  "../../usecase"
+  "../database"
   // 何？
   "strconv"
 )

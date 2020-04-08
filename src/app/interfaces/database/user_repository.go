@@ -4,7 +4,7 @@ package database
 
 // domain層をインポート
 // 内側に依存しているので依存関係は守れている
-import "app/domain"
+import "../../domain"
 // usecaseをインポートする必要があるのでは？？
 
 // infrastructures層で定義したデータベース接続を実行
