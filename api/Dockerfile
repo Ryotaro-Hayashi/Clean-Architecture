@@ -1,5 +1,5 @@
 # ベースとなるDockerイメージ指定
-FROM golang:1.13.9-alpine3.10
+FROM golang:1.14-alpine
 
 # コンテナ内に作業ディレクトリを作成
 RUN mkdir /api
