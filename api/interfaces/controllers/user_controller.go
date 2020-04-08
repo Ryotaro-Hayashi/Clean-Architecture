@@ -1,17 +1,17 @@
 package controllers
 
 import (
-  "../../domain"
-  "../../usecase"
-  "../database"
+  "api/domain"
+  "api/usecase"
+  "api/interfaces/database"
   // 何？
   "strconv"
 )
 
-// usecase層のUserInteratorを使用
+// usecase層のUserInteractorを使用
 type UserController struct {
-  // usecase層でUserInteratorはinterfaces層にあるUserRepositoryを参照しているのでinterfaces/databaseをインポート
-  Interator usercase.UserInteractor
+  // usecase層でUserInteractorはinterfaces層にあるUserRepositoryを参照しているのでinterfaces/databaseをインポート
+  Interactor usercase.UserInteractor
 }
 
 // 構造体を初期化する. 入れ子になっている.

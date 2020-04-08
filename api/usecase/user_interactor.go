@@ -2,7 +2,7 @@
 
 package usecase
 
-import "../domain"
+import "api/domain"
 
 // interfaces層で定義したルールを持ち込んでいるように見える
 type UserInteractor struct {

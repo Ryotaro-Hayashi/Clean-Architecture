@@ -4,7 +4,7 @@ import (
     // gin をインポート
     gin "gopkg.in/gin-gonic/gin.v1"
 
-    "../interfaces/controllers"
+    "api/interfaces/controllers"
 )
 
 var Router *gin.Engine

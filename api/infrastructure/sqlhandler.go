@@ -9,7 +9,7 @@ import (
   // mysql用のドライバー
   _ "github.com/go-sql-driver/mysql"
   // ②interfacesでDB接続ができるように、interfacesで定義したロジックをインポートして依存関係を逆転させる
-  "../interfaces/database"
+  "api/interfaces/database"
 )
 
 type SqlHandler struct {
