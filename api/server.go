@@ -1,6 +1,6 @@
 package main
 
-import "./infrastructure"
+import "api/infrastructure"
 
 func main() {
     infrastructure.Router.Run()

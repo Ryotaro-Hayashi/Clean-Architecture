@@ -2,7 +2,7 @@
 
 package usecase
 
-import "../domain"
+import "api/domain"
 
 // interfaces層で定義したルールを持ち込んでいるように見える
 type UserInteractor struct {
@@ -10,9 +10,15 @@ type UserInteractor struct {
 }
 
 // Addメソッド
-func (interactor *UserInteractor) Add(u domain.User) (err error) {
-    _, err := interactor.UserRepository.Store(u)
-    return
+func (interactor *UserInteractor) Add(u domain.User) (user domain.User, err error) {
+    // userを保存
+    identifier, err := interactor.UserRepository.Store(u)
+    if err != nil {
+		  return
+	  }
+    // 作成したユーザーを返す
+	  user, err = interactor.UserRepository.FindById(identifier)
+	  return
 }
 
 // Usersメソッド

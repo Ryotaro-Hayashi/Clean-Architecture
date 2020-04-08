@@ -9,7 +9,7 @@ import (
   // mysql用のドライバー
   _ "github.com/go-sql-driver/mysql"
   // ②interfacesでDB接続ができるように、interfacesで定義したロジックをインポートして依存関係を逆転させる
-  "../interfaces/database"
+  "api/interfaces/database"
 )
 
 type SqlHandler struct {
@@ -22,8 +22,8 @@ type SqlHandler struct {
 // func NewSqlHandler() *SqlHandler {
 func NewSqlHandler() database.SqlHandler {
   // データベースへ接続するためのhandlerを取得。ドライバ名（mysql）と、user:password@tcp(host:port)/dbnameを指定。
-  // tcp, := は何？
-  conn, err := sql.Open("mysql", "root:@tcp(db:3306)/sample")
+  // tcp, := は何？ 入れると nil pointer エラーが出る
+  conn, err := sql.Open("mysql", "root@/CleanArchitecture")
 
   //接続でエラーが発生した場合の処理
   if err != nil {
