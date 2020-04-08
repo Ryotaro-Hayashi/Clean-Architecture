@@ -7,6 +7,10 @@ WORKDIR /CleanArchitecture/api
 # ホストのファイルをコンテナの作業ディレクトリに移行
 ADD . /CleanArchitecture/api
 
+# GOMUDULE を有効化
 ENV GO111MODULE=on
+
+# モジュールインストール
 RUN go mod download
+
 EXPOSE 8080
