@@ -18,7 +18,7 @@ type UserRepository struct {
 func (repo *UserRepository) Store(u domain.User) (id int, err error) {
   // Execute？
   result, err := repo.Execute(
-    "INSERT INTO users (first_name, last_name) VALUES(?,?)", u.FisrtName, u.LastName,
+    "INSERT INTO users (first_name, last_name) VALUES(?,?)", u.FirstName, u.LastName,
   )
   if err != nil {
     return
@@ -36,7 +36,7 @@ func (repo *UserRepository) Store(u domain.User) (id int, err error) {
 }
 
 // idによるUserの検索
-func (repo *UserRepository) FindById(identifier id) (user domain.User, err error) {
+func (repo *UserRepository) FindById(identifier int) (user domain.User, err error) {
   // Queryで SELECT文を渡す
   row, err := repo.Query("SELECT id, first_name, last_name FROM users WHERE id = ?", identifier)
 
@@ -48,7 +48,7 @@ func (repo *UserRepository) FindById(identifier id) (user domain.User, err error
   }
 
   var id int
-  var fisrtName string
+  var firstName string
   var lastName string
 
   // 行処理

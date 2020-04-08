@@ -11,7 +11,7 @@ import (
 // usecase層のUserInteractorを使用
 type UserController struct {
   // usecase層でUserInteractorはinterfaces層にあるUserRepositoryを参照しているのでinterfaces/databaseをインポート
-  Interactor usercase.UserInteractor
+  Interactor usecase.UserInteractor
 }
 
 // 構造体を初期化する. 入れ子になっている.
@@ -29,19 +29,19 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 func (controller *UserController) Create(c Context) {
     u := domain.User{}
     c.Bind(&u)
-    err := controller.Interactor.Add(u)
+    user, err := controller.Interactor.Add(u)
     if err != nil {
-        c.JSON(500, NewError(err))
+        c.JSON(500, err)
         return
     }
-    c.JSON(201)
+    c.JSON(201, user)
 }
 
 // Indexメソッド
 func (controller *UserController) Index(c Context) {
     users, err := controller.Interactor.Users()
     if err != nil {
-        c.JSON(500, NewError(err))
+        c.JSON(500, err)
         return
     }
     c.JSON(200, users)
@@ -52,7 +52,7 @@ func (controller *UserController) Show(c Context) {
     id, _ := strconv.Atoi(c.Param("id"))
     user, err := controller.Interactor.UserById(id)
     if err != nil {
-        c.JSON(500, NewError(err))
+        c.JSON(500, err)
         return
     }
     c.JSON(200, user)
