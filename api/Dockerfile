@@ -2,10 +2,10 @@
 FROM golang:1.13.9-alpine3.10
 
 # コンテナ内に作業ディレクトリを作成
-RUN mkdir /app
+RUN mkdir /api
 
 # コンテナログイン時のディレクトリ指定
-WORKDIR /app
+WORKDIR /api
 
 # ホストのファイルをコンテナの作業ディレクトリに移行
-ADD . /app
+ADD . /api

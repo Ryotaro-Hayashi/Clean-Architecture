@@ -9,10 +9,10 @@ services:
       - "3306:3306"
 
   back: # service名
-    build: ./app # ビルドに使用するDockerfileがあるディレクトリ指定
+    build: ./api # ビルドに使用するDockerfileがあるディレクトリ指定
     tty: true # コンテナの起動永続化
     volumes:
-      - ./app:/app # マウントディレクトリ指定
+      - ./api:/api # マウントディレクトリ指定
     ports:
       - "8080:8080"
     links:
