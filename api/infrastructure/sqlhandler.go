@@ -2,7 +2,6 @@
 
 package infrastructure
 
-// mysqlをgithubからインポート
 import (
   // database/sqlパッケージ
   "database/sql"
@@ -13,13 +12,11 @@ import (
 )
 
 type SqlHandler struct {
-  // database/sqlパッケージによるデータベース接続に必要なtype
+  // DB型
   Conn *sql.DB
 }
 
 // New + 構造体名 という構造体を初期化する関数名の命名慣例
-// 戻り値をinterfacesのSqlHandlerにするためにコメントアウト↓
-// func NewSqlHandler() *SqlHandler {
 func NewSqlHandler() database.SqlHandler {
   // データベースへ接続するためのhandlerを取得。ドライバ名（mysql）と、user:password@tcp(host:port)/dbnameを指定。
   // ローカル環境で、tcp を入れると nil pointer エラーが出る(mysql.server start も忘れずに)
@@ -37,12 +34,11 @@ func NewSqlHandler() database.SqlHandler {
   return sqlHandler
 }
 
-// interfacesで使うメソッドを定義
-
-// Executeメソッド
-// 戻り値がinterfacesの Result, error になっている
+// Executeメソッド￥
 func (handler *SqlHandler) Execute(statement string, args ...interface{}) (database.Result, error) {
     res := SqlResult{}
+    // Exec は Query と違い、行を返さず、要約して返す
+    // 引数は(クエリ, クエリ内のパラメーター)
     result, err := handler.Conn.Exec(statement, args...)
     if err != nil {
         return res, err
@@ -52,8 +48,8 @@ func (handler *SqlHandler) Execute(statement string, args ...interface{}) (datab
 }
 
 // Queryメソッド
-// 戻り値がinterfacesの Row, error になっている
 func (handler *SqlHandler) Query(statement string, args ...interface{}) (database.Row, error) {
+    // 行を返す
     rows, err := handler.Conn.Query(statement, args...)
     if err != nil {
         return new(SqlRow), err
@@ -65,31 +61,39 @@ func (handler *SqlHandler) Query(statement string, args ...interface{}) (databas
 
 // LastInsertIdメソッドの呼び出しもと
 type SqlResult struct {
+    // Result型
     Result sql.Result
 }
 
 // LastInsertIdメソッド
 func (r SqlResult) LastInsertId() (int64, error) {
+    // 最後に挿入された要素のidを返す
     return r.Result.LastInsertId()
 }
 
 // RowsAffectedメソッド
 func (r SqlResult) RowsAffected() (int64, error) {
+    // 更新・挿入・削除によって影響を受けた行を返す
     return r.Result.RowsAffected()
 }
 
 // Scanメソッド, Nextメソッド, Closeメソッドの呼び出しもと
 type SqlRow struct {
+    // Rows型
     Rows *sql.Rows
 }
 
 // Scanメソッド
 func (r SqlRow) Scan(dest ...interface{}) error {
+    // dest に行の値をコピーする
     return r.Rows.Scan(dest...)
 }
 
 // Nextメソッド
+// Scanメソッドが読み取れるように結果行をセット
+// Scanメソッドより先行しなくてはいけない
 func (r SqlRow) Next() bool {
+    // セットに成功するとtrueを返す
     return r.Rows.Next()
 }
 

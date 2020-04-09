@@ -23,12 +23,14 @@ func (interactor *UserInteractor) Add(u domain.User) (user domain.User, err erro
 
 // Usersメソッド
 func (interactor *UserInteractor) Users() (user domain.Users, err error) {
+    // userを一覧で返す
     user, err = interactor.UserRepository.FindAll()
     return
 }
 
 // UserByIdメソッド
 func (interactor *UserInteractor) UserById(identifier int) (user domain.User, err error) {
+    // userをid検索して返す
     user, err = interactor.UserRepository.FindById(identifier)
     return
 }
