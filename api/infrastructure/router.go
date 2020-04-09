@@ -7,9 +7,11 @@ import (
     "api/interfaces/controllers"
 )
 
+// server.go で Run するためのエンジンを初期化
 var Router *gin.Engine
 
 func init() {
+    // デフォルトのミドルウェア付きのEngineインスタンスを作成
     router := gin.Default()
 
     // DB接続
@@ -20,5 +22,6 @@ func init() {
     router.GET("/users", func(c *gin.Context) { userController.Index(c) })
     router.GET("/users/:id", func(c *gin.Context) { userController.Show(c) })
 
+    // server.go で Run するためのエンジンに格納
     Router = router
 }

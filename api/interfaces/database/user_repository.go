@@ -6,6 +6,7 @@ package database
 // 内側に依存しているので依存関係は守れている
 import "api/domain"
 // usecaseをインポートする必要があるのでは？？
+// interfaces/controllersでインポートしているので大丈夫（？）
 
 // infrastructures層で定義したデータベース接続を実行
 // 外側のレイヤーのルールを内側のレイヤーに持ち込んでいる！ように見えるが、
@@ -14,7 +15,7 @@ type UserRepository struct {
   SqlHandler
 }
 
-// Userの作成・保存
+// Userの保存
 func (repo *UserRepository) Store(u domain.User) (id int, err error) {
   // Execute？
   result, err := repo.Execute(
