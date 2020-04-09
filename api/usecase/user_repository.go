@@ -10,5 +10,3 @@ type UserRepository interface {
     FindById(int) (domain.User, error)
     FindAll() (domain.Users, error)
 }
-
-// interfacesでこのファイル（usecase）をインポートする必要があるのでは？

@@ -2,7 +2,6 @@
 
 package infrastructure
 
-// mysqlをgithubからインポート
 import (
   // database/sqlパッケージ
   "database/sql"
@@ -18,8 +17,6 @@ type SqlHandler struct {
 }
 
 // New + 構造体名 という構造体を初期化する関数名の命名慣例
-// 戻り値をinterfacesのSqlHandlerにするためにコメントアウト↓
-// func NewSqlHandler() *SqlHandler {
 func NewSqlHandler() database.SqlHandler {
   // データベースへ接続するためのhandlerを取得。ドライバ名（mysql）と、user:password@tcp(host:port)/dbnameを指定。
   // ローカル環境で、tcp を入れると nil pointer エラーが出る(mysql.server start も忘れずに)
@@ -37,10 +34,7 @@ func NewSqlHandler() database.SqlHandler {
   return sqlHandler
 }
 
-// interfacesで使うメソッドを定義
-
-// Executeメソッド
-// 戻り値がinterfacesの Result, error になっている
+// Executeメソッド￥
 func (handler *SqlHandler) Execute(statement string, args ...interface{}) (database.Result, error) {
     res := SqlResult{}
     // Exec は Query と違い、行を返さず、要約して返す
@@ -54,7 +48,6 @@ func (handler *SqlHandler) Execute(statement string, args ...interface{}) (datab
 }
 
 // Queryメソッド
-// 戻り値がinterfacesの Row, error になっている
 func (handler *SqlHandler) Query(statement string, args ...interface{}) (database.Row, error) {
     // 行を返す
     rows, err := handler.Conn.Query(statement, args...)

@@ -4,13 +4,11 @@ import (
   "api/domain"
   "api/usecase"
   "api/interfaces/database"
-  // 何？
   "strconv"
 )
 
 // usecase層のUserInteractorを使用
 type UserController struct {
-  // usecase層でUserInteractorはinterfaces層にあるUserRepositoryを参照しているのでinterfaces/databaseをインポート
   Interactor usecase.UserInteractor
 }
 
@@ -43,6 +41,7 @@ func (controller *UserController) Create(c Context) {
 
 // Indexメソッド
 func (controller *UserController) Index(c Context) {
+  // ユーザー一覧
     users, err := controller.Interactor.Users()
     if err != nil {
         c.JSON(500, err)
@@ -53,7 +52,10 @@ func (controller *UserController) Index(c Context) {
 
 // Showメソッド
 func (controller *UserController) Show(c Context) {
+    // URLからパラメータを受け取って、Atoiメソッドで文字列から整数へ変換
     id, _ := strconv.Atoi(c.Param("id"))
+
+    // ユーザーをidで検索
     user, err := controller.Interactor.UserById(id)
     if err != nil {
         c.JSON(500, err)
