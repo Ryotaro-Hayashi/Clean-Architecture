@@ -52,22 +52,24 @@ func (repo *UserRepository) FindById(identifier int) (user domain.User, err erro
   var firstName string
   var lastName string
 
-  // 行処理
+  // Scanメソッドで読み取れるように結果行をセット
   row.Next()
 
-  // Scan()に変数ポインタを渡し、DBの結果をセット
+  // Scan()に変数ポインタを渡し、各変数にrowの値をコピー
   // err を定義して ; で条件文と仕切る
   if err = row.Scan(&id, &firstName, &lastName); err != nil {
         return
-    }
-    user.ID = id
-    user.FirstName = firstName
-    user.LastName = lastName
-    return
+  }
+
+  user.ID = id
+  user.FirstName = firstName
+  user.LastName = lastName
+  return
 }
 
 // User一覧
 func (repo *UserRepository) FindAll() (users domain.Users, err error) {
+  // SQL文を実行
   rows, err := repo.Query("SELECT id, first_name, last_name FROM users")
 
   defer rows.Close()
