@@ -18,6 +18,7 @@ func init() {
     userController := controllers.NewUserController(NewSqlHandler())
 
     // interfaces/cotrollers のメソッドを使ってルーティングを設定
+    // パラメーターは gin.Context が受け取っている
     router.POST("/users", func(c *gin.Context) { userController.Create(c) })
     router.GET("/users", func(c *gin.Context) { userController.Index(c) })
     router.GET("/users/:id", func(c *gin.Context) { userController.Show(c) })
