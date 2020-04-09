@@ -4,8 +4,9 @@ package database
 
 // domain層をインポート
 // 内側に依存しているので依存関係は守れている
-import "../../domain"
+import "api/domain"
 // usecaseをインポートする必要があるのでは？？
+// interfaces/controllersでインポートしているので大丈夫（？）
 
 // infrastructures層で定義したデータベース接続を実行
 // 外側のレイヤーのルールを内側のレイヤーに持ち込んでいる！ように見えるが、
@@ -14,11 +15,11 @@ type UserRepository struct {
   SqlHandler
 }
 
-// Userの作成・保存
+// Userの保存
 func (repo *UserRepository) Store(u domain.User) (id int, err error) {
-  // Execute？
+  // クエリを実行して結果を要約して返す
   result, err := repo.Execute(
-    "INSERT INTO users (first_name, last_name) VALUES(?,?)", u.FisrtName, u.LastName
+    "INSERT INTO users (first_name, last_name) VALUES(?,?)", u.FirstName, u.LastName,
   )
   if err != nil {
     return
@@ -36,8 +37,8 @@ func (repo *UserRepository) Store(u domain.User) (id int, err error) {
 }
 
 // idによるUserの検索
-func (repo *UserRepository) FindById(identifier id) (user domain.User, err error) {
-  // Queryで SELECT文を渡す
+func (repo *UserRepository) FindById(identifier int) (user domain.User, err error) {
+  // クエリを実行して行を返す
   row, err := repo.Query("SELECT id, first_name, last_name FROM users WHERE id = ?", identifier)
 
   // 最後に実行する
@@ -48,21 +49,22 @@ func (repo *UserRepository) FindById(identifier id) (user domain.User, err error
   }
 
   var id int
-  var FisrtName string
-  var LastName string
+  var firstName string
+  var lastName string
 
-  // 行処理
+  // Scanメソッドで読み取れるように結果行をセット
   row.Next()
 
-  // Scan()に変数ポインタを渡し、DBの結果をセット
+  // Scan()に変数ポインタを渡し、各変数にrowの値をコピー
   // err を定義して ; で条件文と仕切る
   if err = row.Scan(&id, &firstName, &lastName); err != nil {
         return
-    }
-    user.ID = id
-    user.FirstName = firstName
-    user.LastName = lastName
-    return
+  }
+
+  user.ID = id
+  user.FirstName = firstName
+  user.LastName = lastName
+  return
 }
 
 // User一覧

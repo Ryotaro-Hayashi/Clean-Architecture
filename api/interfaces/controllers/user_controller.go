@@ -1,17 +1,15 @@
 package controllers
 
 import (
-  "../../domain"
-  "../../usecase"
-  "../database"
-  // 何？
+  "api/domain"
+  "api/usecase"
+  "api/interfaces/database"
   "strconv"
 )
 
-// usecase層のUserInteratorを使用
+// usecase層のUserInteractorを使用
 type UserController struct {
-  // usecase層でUserInteratorはinterfaces層にあるUserRepositoryを参照しているのでinterfaces/databaseをインポート
-  Interator usercase.UserInteractor
+  Interactor usecase.UserInteractor
 }
 
 // 構造体を初期化する. 入れ子になっている.
@@ -27,21 +25,26 @@ func NewUserController(sqlHandler database.SqlHandler) *UserController {
 
 // ユーザーの Createメソッド
 func (controller *UserController) Create(c Context) {
+    // 入力されたユーザーを受け取るためのUser型を初期化
     u := domain.User{}
+    // Bindは、Content-TypeをチェックしてバインドするContext（JsonとXML以外だとエラーを吐く）
+    // Postリクエストで受け取ったユーザーをバインド
     c.Bind(&u)
-    err := controller.Interactor.Add(u)
+    // ユーザーを追加・保存
+    user, err := controller.Interactor.Add(u)
     if err != nil {
-        c.JSON(500, NewError(err))
+        c.JSON(500, err)
         return
     }
-    c.JSON(201)
+    c.JSON(201, user)
 }
 
 // Indexメソッド
 func (controller *UserController) Index(c Context) {
+  // ユーザー一覧
     users, err := controller.Interactor.Users()
     if err != nil {
-        c.JSON(500, NewError(err))
+        c.JSON(500, err)
         return
     }
     c.JSON(200, users)
@@ -49,10 +52,13 @@ func (controller *UserController) Index(c Context) {
 
 // Showメソッド
 func (controller *UserController) Show(c Context) {
+    // URLからパラメータを受け取って、Atoiメソッドで文字列から整数へ変換
     id, _ := strconv.Atoi(c.Param("id"))
+
+    // ユーザーをidで検索
     user, err := controller.Interactor.UserById(id)
     if err != nil {
-        c.JSON(500, NewError(err))
+        c.JSON(500, err)
         return
     }
     c.JSON(200, user)

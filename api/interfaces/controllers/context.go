@@ -2,6 +2,7 @@
 
 package controllers
 
+// Context で使う組み込みメソッドを定義
 type Context interface {
     Param(string) string
     Bind(interface{}) error

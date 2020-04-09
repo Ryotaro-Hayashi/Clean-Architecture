@@ -2,7 +2,7 @@
 
 package usecase
 
-import "../domain"
+import "api/domain"
 
 // ロジックとしてUserRepository型とメソッドを定義
 type UserRepository interface {
@@ -10,5 +10,3 @@ type UserRepository interface {
     FindById(int) (domain.User, error)
     FindAll() (domain.Users, error)
 }
-
-// interfacesでこのファイル（usecase）をインポートする必要があるのでは？
