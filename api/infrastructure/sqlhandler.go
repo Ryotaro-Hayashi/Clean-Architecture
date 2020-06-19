@@ -9,11 +9,19 @@ import (
   _ "github.com/go-sql-driver/mysql"
   // ②interfacesでDB接続ができるように、interfacesで定義したロジックをインポートして依存関係を逆転させる
   "api/interfaces/database"
+  // gorm
+  "github.com/jinzhu/gorm"
+    _ "github.com/jinzhu/gorm/dialects/mysql"
+  "api/domain"  
 )
 
 type SqlHandler struct {
   // DB型
   Conn *sql.DB
+}
+
+type GormHandler struct {
+  Conn *gorm.DB
 }
 
 // New + 構造体名 という構造体を初期化する関数名の命名慣例
@@ -32,6 +40,26 @@ func NewSqlHandler() database.SqlHandler {
   sqlHandler := new(SqlHandler)
   sqlHandler.Conn = conn
   return sqlHandler
+}
+
+func NewGormHandler() database.GormHandler {
+    db, err := gorm.Open("mysql", "root@tcp(db:3306)/CleanArchitecture")
+	defer db.Close()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	db.AutoMigrate(domain.User{}) // マイグレーション
+
+	db.Create(domain.User{ // データの挿入
+        FirstName: "test",
+        LastName: "man",
+	})
+
+	gormHandler := new(GormHandler)
+	gormHandler.Conn = db
+
+	return gormHandler
 }
 
 // Executeメソッド￥
