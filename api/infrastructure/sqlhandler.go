@@ -135,7 +135,10 @@ func (r SqlRow) Close() error {
 func (handler *GormHandler) Find() (users domain.Users, err error){
     // gormHandler.Conn = gormHandler.Conn.Begin()
 
-    handler.Conn.Find(&users) // データを収集
+    // データを収集
+    if err = handler.Conn.Find(&users).Error; err != nil {
+        return
+    }
     
 	return
 }
