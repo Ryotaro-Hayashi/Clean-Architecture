@@ -4,7 +4,10 @@ package database
 
 // domain層をインポート
 // 内側に依存しているので依存関係は守れている
-import "api/domain"
+import (
+  "api/domain"
+  "log"
+)
 // usecaseをインポートする必要があるのでは？？
 // interfaces/controllersでインポートしているので大丈夫（？）
 
@@ -13,6 +16,7 @@ import "api/domain"
 // 実態としてはuser_repository/goから呼び出している
 type UserRepository struct {
   SqlHandler
+  GormHandler
 }
 
 // Userの保存
@@ -93,5 +97,18 @@ func (repo *UserRepository) FindAll() (users domain.Users, err error) {
     // usersにuserを追加
     users = append(users, user)
   }
+  return
+}
+
+// ユーザー情報を全取得して返す
+func (repo *UserRepository) GormFindAll() (users domain.Users, err error) {
+  // ユーザー情報を全取得
+  users, err = repo.Find()
+  if err != nil {
+    return
+  }
+
+  log.Print("The users are ", users)
+
   return
 }

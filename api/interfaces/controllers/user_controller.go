@@ -13,11 +13,12 @@ type UserController struct {
 }
 
 // 構造体を初期化する. 入れ子になっている.
-func NewUserController(sqlHandler database.SqlHandler) *UserController {
+func NewUserController(sqlHandler database.SqlHandler, gormHandler database.GormHandler) *UserController {
     return &UserController{
         Interactor: usecase.UserInteractor{
             UserRepository: &database.UserRepository{
                 SqlHandler: sqlHandler,
+                GormHandler: gormHandler,
             },
         },
     }

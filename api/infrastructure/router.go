@@ -15,7 +15,7 @@ func init() {
     router := gin.Default()
 
     // DB接続
-    userController := controllers.NewUserController(NewSqlHandler())
+    userController := controllers.NewUserController(NewSqlHandler(), NewGormHandler())
 
     // interfaces/cotrollers のメソッドを使ってルーティングを設定
     // パラメーターは gin.Context が受け取っている

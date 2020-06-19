@@ -2,6 +2,10 @@
 
 package database
 
+import (
+  "api/domain"
+)
+
 type SqlHandler interface {
   // interface型に何もメソッドを定義していない（よってどんな型でも代入できる）
   // Result型, error型, Row型
@@ -10,7 +14,7 @@ type SqlHandler interface {
 }
 
 type GormHandler interface {
-  
+  Find() (domain.Users, error)
 }
 
 type Result interface {

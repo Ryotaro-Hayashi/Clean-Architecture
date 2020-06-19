@@ -42,19 +42,20 @@ func NewSqlHandler() database.SqlHandler {
   return sqlHandler
 }
 
+// GORMでMySQLに接続
 func NewGormHandler() database.GormHandler {
     db, err := gorm.Open("mysql", "root@tcp(db:3306)/CleanArchitecture")
-	defer db.Close()
+
 	if err != nil {
 		panic(err.Error())
-	}
+    }
 
 	db.AutoMigrate(domain.User{}) // マイグレーション
 
-	db.Create(domain.User{ // データの挿入
-        FirstName: "test",
-        LastName: "man",
-	})
+	// db.Create(domain.User{ // データの挿入
+    //     FirstName: "test",
+    //     LastName: "man",
+	// })
 
 	gormHandler := new(GormHandler)
 	gormHandler.Conn = db
@@ -62,7 +63,7 @@ func NewGormHandler() database.GormHandler {
 	return gormHandler
 }
 
-// Executeメソッド￥
+// Executeメソッド
 func (handler *SqlHandler) Execute(statement string, args ...interface{}) (database.Result, error) {
     res := SqlResult{}
     // Exec は Query と違い、行を返さず、要約して返す
@@ -128,4 +129,13 @@ func (r SqlRow) Next() bool {
 // Closeメソッド
 func (r SqlRow) Close() error {
     return r.Rows.Close()
+}
+
+// テーブルのカラムを全て取得する
+func (handler *GormHandler) Find() (users domain.Users, err error){
+    // gormHandler.Conn = gormHandler.Conn.Begin()
+
+    handler.Conn.Find(&users) // データを収集
+    
+	return
 }

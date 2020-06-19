@@ -22,9 +22,14 @@ func (interactor *UserInteractor) Add(u domain.User) (user domain.User, err erro
 }
 
 // Usersメソッド
-func (interactor *UserInteractor) Users() (user domain.Users, err error) {
+func (interactor *UserInteractor) Users() (users domain.Users, err error) {
     // userを一覧で返す
-    user, err = interactor.UserRepository.FindAll()
+    // user, err = interactor.UserRepository.FindAll()
+
+    // return
+    
+    // GORMで↑これと同じ処理をする
+    users, err = interactor.UserRepository.GormFindAll()
     return
 }
 

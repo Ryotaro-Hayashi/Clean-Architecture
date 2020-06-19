@@ -7,6 +7,7 @@ services:
       MYSQL_DATABASE: CleanArchitecture
       # rootユーザーのログイン時に空パスワードを許可
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    container_name: mysql
     volumes:
       # データベースの永続化
       - db-data:/var/lib/mysql
@@ -22,6 +23,7 @@ services:
       MYAPP_DATABASE_HOST: db
     # サーバー起動の自動化
     command: "go run server.go"
+    container_name: api
     volumes:
       # # マウントディレクトリ指定（ディレクトリ綺麗なのでDockerfileのディレクトリと一致させた）
       - ./:/CleanArchitecture
