@@ -1,10 +1,10 @@
 package infrastructure
 
 import (
+    "api/interfaces/controllers"
+    "github.com/gin-contrib/pprof"
     // gin をインポート
     "github.com/gin-gonic/gin"
-
-    "api/interfaces/controllers"
 )
 
 // server.go で Run するためのエンジンを初期化
@@ -13,6 +13,8 @@ var Router *gin.Engine
 func init() {
     // デフォルトのミドルウェア付きのEngineインスタンスを作成
     router := gin.Default()
+
+    pprof.Register(router)
 
     // DB接続
     userController := controllers.NewUserController(NewSqlHandler())
