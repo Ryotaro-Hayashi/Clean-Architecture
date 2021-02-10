@@ -17,7 +17,7 @@ services:
       - "3306:3306"
 
   back: # service名
-    container_name: back
+    container_name: api
     build: ./api # ビルドに使用するDockerfileがあるディレクトリ指定
     tty: true # コンテナの起動永続化
     environment:
