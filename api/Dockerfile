@@ -12,5 +12,3 @@ ENV GO111MODULE=on
 
 # モジュールインストール
 RUN go mod download
-
-EXPOSE 8080

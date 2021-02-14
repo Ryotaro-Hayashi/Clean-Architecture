@@ -2,6 +2,7 @@ version: '3' # composeファイルのバーション指定
 services:
   db:
     image: mysql:5.6
+    container_name: db
     environment:
       # データベース名
       MYSQL_DATABASE: CleanArchitecture
@@ -10,12 +11,14 @@ services:
     volumes:
       # データベースの永続化
       - db-data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       # テーブルや初期データの作成・追加
       - ./mysql:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
 
   back: # service名
+    container_name: api
     build: ./api # ビルドに使用するDockerfileがあるディレクトリ指定
     tty: true # コンテナの起動永続化
     environment:
@@ -27,6 +30,7 @@ services:
       - ./:/CleanArchitecture
     ports:
       - "8080:8080"
+      - "8888:8888"
     links:
       - db
 
